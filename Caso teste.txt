@@ -1,1 +1,210 @@
-a
+10 12
+0
+1
+Pallet
+251
+0
+Lumiose
+72
+1
+Tapu village
+302
+1
+Lavender Town
+134
+0
+Verdanturf Town
+192
+0
+Vaniville Town
+16
+0
+Aether Paradise
+293
+0
+Opalucid City
+150
+1
+Suntouched City
+280
+1
+Celestic Town
+205
+1
+
+0 4 200
+0 3 20
+0 8 300
+0 9 400
+1 5 40
+2 6 30
+4 2 150
+4 7 220
+4 8 250
+7 1 175
+8 1 600
+8 9 320
+
+2
+
+3
+16
+3
+302
+
+4
+Lucario
+Aço
+Lutador
+448
+72 91
+4
+Decidueye
+Fantasma
+Grama
+724
+65 36
+4
+Zapdos
+Elétrico
+Voador
+145
+120 52
+4
+Greninja
+Água
+Sombrio
+658
+47 158
+4
+Blaziken
+Fogo
+Lutador
+257
+4 190
+4
+Mew
+Psíquico
+Null
+151
+169 74
+4
+Eevee
+Normal
+Null
+133
+22 77
+4
+Mew Two
+Psíquico
+Null
+680
+75 39
+4
+Vulpix Alola
+Gelo
+Null
+299
+156 56
+4
+Psyduck
+Água
+Null
+320
+165 89
+4 
+Scizor
+Aço
+Inseto
+212
+82 61
+4 
+Pinsir
+Inseto
+Null
+127
+45 73
+4 
+Snorlax
+Normal
+Null
+143
+103 55
+4 
+Onix
+Pedra
+Terra
+95
+17 44
+4 
+Tyranitar
+Pedra
+Sombrio
+248
+59 22
+4 
+Dragonite
+Dragão
+Voador
+149
+124 97
+4 
+Salamence
+Dragão
+Voador
+373
+85 43
+4 
+Bulbasaur
+Grama
+Venenoso
+1
+53 92
+4 
+Sceptile
+Grama
+Null
+254
+39 61
+4 
+Umbreon
+Sombrio
+Null
+197
+109 30
+4 
+Absol
+Sombrio
+Null
+359
+42 68
+4 
+Golem
+Pedra
+Terra
+76
+102 118
+4 
+Flygon
+Dragão
+Terra
+330
+25 84
+4 
+Gardevoir
+Fada
+Psíquico
+282
+121 37
+4 
+Togekiss
+Fada
+Voador
+468
+58 112
+4
+Ninetales Alola
+Fada
+Gelo
+505
+45 99
