@@ -54,157 +54,158 @@ Celestic Town
 
 4
 Lucario
-Aço
-Lutador
+17
+10
 448
 72 91
 4
 Decidueye
-Fantasma
-Grama
+9
+2
 724
 65 36
 4
 Zapdos
-Elétrico
-Voador
+13
+12
 145
 120 52
 4
 Greninja
-Água
-Sombrio
+0
+15
 658
 47 158
 4
 Blaziken
-Fogo
-Lutador
+1
+10
 257
 4 190
 4
 Mew
-Psíquico
-Null
+6
+17
 151
 169 74
 4
 Eevee
-Normal
-Null
+4
+17
 133
 22 77
 4
 Mew Two
-Psíquico
-Null
+6
+17
 680
 75 39
 4
 Vulpix Alola
-Gelo
-Null
+15
+17
 299
 156 56
 4
 Psyduck
-Água
-Null
+0
+17
 320
 165 89
 4 
 Scizor
-Aço
-Inseto
+17
+3
 212
 82 61
 4 
 Pinsir
-Inseto
-Null
+3
+17
 127
 45 73
 4 
 Snorlax
-Normal
-Null
+4
+17
 143
 103 55
 4 
 Onix
-Pedra
-Terra
+5
+7
 95
 17 44
 4 
 Tyranitar
-Pedra
-Sombrio
+5
+15
 248
 59 22
 4 
 Dragonite
-Dragão
-Voador
+16
+12
 149
 124 97
 4 
 Salamence
-Dragão
-Voador
+16
+12
 373
 85 43
 4 
 Bulbasaur
-Grama
-Venenoso
+2
+8
 1
 53 92
 4 
 Sceptile
-Grama
-Null
+2
+17
 254
 39 61
 4 
 Umbreon
-Sombrio
-Null
+15
+17
 197
 109 30
 4 
 Absol
-Sombrio
-Null
+15
+17
 359
 42 68
 4 
 Golem
-Pedra
-Terra
+5
+7
 76
 102 118
 4 
 Flygon
-Dragão
-Terra
+16
+7
 330
 25 84
 4 
 Gardevoir
-Fada
-Psíquico
+14
+6
 282
 121 37
 4 
 Togekiss
-Fada
-Voador
+14
+12
 468
 58 112
 4
 Ninetales Alola
-Fada
-Gelo
+14
+15
 505
 45 99
+
