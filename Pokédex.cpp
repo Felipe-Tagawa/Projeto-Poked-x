@@ -87,9 +87,10 @@ struct cidades
 
 typedef treenode *treenodeptr;
 
-int compara_pokemon(const pokemon &poke1, const pokemon &poke2)
+int compara_pokemon(pokemon &poke1, pokemon &poke2)
 {
-	if (poke1.id == poke2.id)
+	if (poke1.id == poke2.id) // Caso muito específico que o usuário pode digitar dois pokémons com mesmo ID.
+		// Interessante para inserir mega-evoluções.
 	{
 		if (poke1.nome == poke2.nome)
 		{
