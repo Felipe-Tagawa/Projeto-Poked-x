@@ -10,46 +10,13 @@ using namespace std;
 
 string tipo1[18] =
 {
-	"Água",
-	"Fogo",
-	"Grama",
-	"Inseto",
-	"Normal",
-	"Pedra",
-	"Psíquico",
-	"Terrestre",
-	"Venenoso",
-	"Fantasma",
-	"Lutador",
-	"Noturno",
-	"Voador",
-	"Eletrico",
-	"Fada",
-	"Gelo",
-	"Dragão",
-	"Aço",
+	"Água", "Fogo", "Grama", "Inseto", "Normal", "Pedra", "Psíquico", "Terrestre", "Venenoso",
+	"Fantasma", "Lutador", "Noturno", "Voador", "Eletrico", "Fada", "Gelo", "Dragão", "Aço",
 };
 string tipo2[19] =
 {
-	"Água",
-	"Fogo",
-	"Grama",
-	"Inseto",
-	"Normal",
-	"Pedra",
-	"Psíquico",
-	"Terrestre",
-	"Venenoso",
-	"Fantasma",
-	"Lutador",
-	"Noturno",
-	"Voador",
-	"Eletrico",
-	"Fada",
-	"Gelo",
-	"Dragão",
-	"Aço",
-	"Null", // Caso não haja segundo tipo.
+	"Água", "Fogo", "Grama", "Inseto", "Normal", "Pedra", "Psíquico", "Terrestre", "Venenoso",
+	"Fantasma", "Lutador", "Noturno", "Voador", "Eletrico", "Fada", "Gelo", "Dragão", "Aço", "Null"
 };
 
 struct ponto
@@ -332,6 +299,18 @@ treenodeptr pokeSearch(treenodeptr p, string poke)
     }
 }
 
+void pesquisarPokemon(treenodeptr arvore) {
+    string op;
+    cout << "Digite o nome do pokémon que deseja pesquisar: ";
+    getline(cin >> ws, op);
+    treenodeptr encontrado = pokeSearch(arvore, op);
+    if (encontrado != NULL) {
+        cout << "Encontrado" << endl;
+    } else {
+        cout << "Não encontrado" << endl;
+    }
+}
+
 treenodeptr tMenor(treenodeptr &p) {
     treenodeptr t;
     t = p;
@@ -376,6 +355,19 @@ bool pokeRemove(treenodeptr &p, string nome){
     }
 }
 
+void removerPokemon(treenodeptr &arvore) {
+    string a_remover;
+    bool removido;
+    cout << "Digite o nome do pokémon que deseja remover: ";
+    getline(cin >> ws, a_remover);
+    removido = pokeRemove(arvore, a_remover);
+    if (removido) {
+        cout << "Removido" << endl;
+    } else {
+        cout << "Não encontrado para remoção" << endl;
+    }
+}
+
 int main()
 {
 	// Permitindo acentuação no código
@@ -384,10 +376,9 @@ int main()
 
 	// Declarando variaveis
 	int num_vertices, arestas, menu = 1;
-	bool orientado, removido;
-	treenodeptr arvore = NULL, encontrado;
+	bool orientado;
+	treenodeptr arvore = NULL;
 	pokemon novo_pokemon;
-	string op, a_remover;
 
 	// Introdução
 	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
@@ -460,25 +451,12 @@ int main()
 			break;
 		case 5 :
 			// Caso 5: busca os pokémons na árvore.
-			cout << "Digite o nome do pokémon que deseja pesquisar: ";
-			getline(cin >> ws, op);
-			encontrado = pokeSearch(arvore, op);
-			if(encontrado != NULL){
-				cout << "Encontrado" << endl;
-			} else{
-			 cout << "Não encontrado" << endl;
-			}
+			pesquisarPokemon(arvore);
 			break;
 		case 6:	
 			// Caso 6: Remove os pokémons na árvore.
-			cout << "Digite o nome do pokémon que deseja remover: ";
-			getline(cin >> ws, a_remover);
-			removido = pokeRemove(arvore, a_remover);
-			if(removido){
-				cout << "Removido" << endl;
-			} else{
-				cout << "Não encontrado para remoção" << endl;
-			}
+			
+			removerPokemon(arvore);
 			break;
 				
 		// Caso receba outro valor: sai do loop
