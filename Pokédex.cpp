@@ -51,83 +51,6 @@ struct cidades
 	string nome; // nome da cidade
 };
 
-
-typedef treenode *treenodeptr;
-
-void dados_pokemon(pokemon &poke) { // Passando por referência para modificar o objeto real
-    cout << "Escreva o nome, o tipo1, o tipo2, o id, e as coordenadas x e y do seu Pokémon: " << endl;
-    getline(cin >> ws, poke.nome);
-    cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
-}
-
-/*int compara_pokemon(pokemon &poke1, pokemon &poke2)
-{
-	if (poke1.id == poke2.id) // Caso muito específico que o usuário pode digitar dois pokémons com mesmo ID.
-		// Interessante para inserir mega-evoluções.
-	{
-		if (poke1.nome == poke2.nome)
-		{
-			return 0;
-		}
-		else if (poke1.nome < poke2.nome)
-		{
-			return -1;
-		}
-		else
-		{
-			return 1;
-		}
-	}
-	else if (poke1.id < poke2.id)
-	{
-		return -1;
-	}
-	else
-	{
-		return 1;
-	}
-}*/
-
-int compara_nome_pokemon(string &nome, pokemon &poke)
-{
-    if (nome == poke.nome)
-    {
-        return 0;
-    }
-    else if (nome < poke.nome)
-    {
-        return -1;
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-void pokeInsert(treenodeptr &p, pokemon poke)
-{
-    if (p == NULL)
-    {
-        p = new treenode;
-        p->dados = poke;
-        p->left = NULL;
-        p->right = NULL;
-        cout << "Inserido: " << poke.nome << endl;
-    }
-    else
-    {
-        int compare = compara_nome_pokemon(poke.nome, p->dados);
-        if (compare == -1)
-        {
-            pokeInsert(p->left, poke);
-        }
-        else
-        {
-            pokeInsert(p->right, poke);
-        }
-    }
-}
-
 void entrada_grafo(cidades cidade[], int num_vertices, int arestas, bool orientado)
 {
 	int origem, destino, peso;
@@ -273,6 +196,83 @@ void busca_centro(cidades cidade[], int num_vertices)
 		end = shortest_path_dijkstra(cidade, num_vertices, pos);
 		cout << "A cidade mais próxima com um centro Pokémon é: " << cidade[end].nome << endl;
 	}
+}
+
+
+typedef treenode *treenodeptr;
+
+void dados_pokemon(pokemon &poke) { // Passando por referência para modificar o objeto real
+    cout << "Escreva o nome, o tipo1, o tipo2, o id, e as coordenadas x e y do seu Pokémon: " << endl;
+    getline(cin >> ws, poke.nome);
+    cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
+}
+
+/*int compara_pokemon(pokemon &poke1, pokemon &poke2)
+{
+	if (poke1.id == poke2.id) // Caso muito específico que o usuário pode digitar dois pokémons com mesmo ID.
+		// Interessante para inserir mega-evoluções.
+	{
+		if (poke1.nome == poke2.nome)
+		{
+			return 0;
+		}
+		else if (poke1.nome < poke2.nome)
+		{
+			return -1;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	else if (poke1.id < poke2.id)
+	{
+		return -1;
+	}
+	else
+	{
+		return 1;
+	}
+}*/
+
+int compara_nome_pokemon(string &nome, pokemon &poke)
+{
+    if (nome == poke.nome)
+    {
+        return 0;
+    }
+    else if (nome < poke.nome)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void pokeInsert(treenodeptr &p, pokemon poke)
+{
+    if (p == NULL)
+    {
+        p = new treenode;
+        p->dados = poke;
+        p->left = NULL;
+        p->right = NULL;
+        cout << "Inserido: " << poke.nome << endl;
+    }
+    else
+    {
+        int compare = compara_nome_pokemon(poke.nome, p->dados);
+        if (compare == -1)
+        {
+            pokeInsert(p->left, poke);
+        }
+        else
+        {
+            pokeInsert(p->right, poke);
+        }
+    }
 }
 
 treenodeptr pokeSearch(treenodeptr p, string poke)
