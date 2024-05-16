@@ -291,6 +291,50 @@ void busca_centro(cidades cidade[], int num_vertices)
 	}
 }
 
+treenodeptr tMenor(treenodeptr &p) {
+    treenodeptr t;
+    t = p;
+    if (t->left == NULL) { // Encontrou o menor valor
+        p = p->right;
+        return t;
+    } else // Continua procurando na esquerda
+        return tMenor(p->left);
+}
+
+bool tRemove(treenodeptr &p, pokemon poke){
+    treenodeptr pk;
+    
+    if(p == NULL)
+        return false;
+        
+    if(compara_pokemon(poke, p->dados) == 0){
+        pk = p;
+        
+        if(p->left == NULL)
+            p = p->right;
+        
+        else{
+            if(p->right == NULL)
+                p = p->left;
+            
+            else{
+                p = tMenor(p->right);
+                p->dados = p->dados;
+            }
+        }
+        
+        delete p;
+        return true;
+    }
+    
+    else{
+        if(compara_pokemon(poke, p->dados) == -1)
+            return tRemove(p->left, poke);
+        else
+            return tRemove(p->right, poke);
+    }
+}
+
 int main()
 {
 	// Permitindo acentuação no código
