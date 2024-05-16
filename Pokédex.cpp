@@ -87,7 +87,13 @@ struct cidades
 
 typedef treenode *treenodeptr;
 
-int compara_pokemon(pokemon &poke1, pokemon &poke2)
+void dados_pokemon(pokemon &poke) { // Passando por referência para modificar o objeto real
+    cout << "Escreva o nome, o tipo1, o tipo2, o id, e as coordenadas x e y do seu Pokémon: " << endl;
+    getline(cin >> ws, poke.nome);
+    cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
+}
+
+/*int compara_pokemon(pokemon &poke1, pokemon &poke2)
 {
 	if (poke1.id == poke2.id) // Caso muito específico que o usuário pode digitar dois pokémons com mesmo ID.
 		// Interessante para inserir mega-evoluções.
@@ -113,28 +119,46 @@ int compara_pokemon(pokemon &poke1, pokemon &poke2)
 	{
 		return 1;
 	}
+}*/
+
+int compara_nome_pokemon(string &nome, pokemon &poke)
+{
+    if (nome == poke.nome)
+    {
+        return 0;
+    }
+    else if (nome < poke.nome)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
 }
+
 void pokeInsert(treenodeptr &p, pokemon poke)
 {
-	if (p == NULL)
-	{
-		p = new treenode;
-		p->dados = poke;
-		p->left = NULL;
-		p->right = NULL;
-	}
-	else
-	{
-		int compare = compara_pokemon(poke, p->dados);
-		if (compare == -1)
-		{
-			pokeInsert(p->left, poke);
-		}
-		else
-		{
-			pokeInsert(p->right, poke);
-		}
-	}
+    if (p == NULL)
+    {
+        p = new treenode;
+        p->dados = poke;
+        p->left = NULL;
+        p->right = NULL;
+        cout << "Inserido: " << poke.nome << endl;
+    }
+    else
+    {
+        int compare = compara_nome_pokemon(poke.nome, p->dados);
+        if (compare == -1)
+        {
+            pokeInsert(p->left, poke);
+        }
+        else
+        {
+            pokeInsert(p->right, poke);
+        }
+    }
 }
 
 void entrada_grafo(cidades cidade[], int num_vertices, int arestas, bool orientado)
@@ -256,13 +280,6 @@ int shortest_path_dijkstra(cidades cidades[], int vertices, int cod_atual)
 	return v;
 }
 
-// Função para ler os dados dos pokémon assim que o case 4 for aceito.
-void dados_pokemon(pokemon poke)
-{
-	cout << "Escreva o nome, o tipo, o id, e as coordenadas x e y do seu Pokémon: " << endl;
-	getline(cin >> ws, poke.nome);
-	cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
-}
 
 void busca_centro(cidades cidade[], int num_vertices)
 {
@@ -291,6 +308,30 @@ void busca_centro(cidades cidade[], int num_vertices)
 	}
 }
 
+treenodeptr pokeSearch(treenodeptr p, string poke)
+{
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        cout << "Comparando: " << poke << " com " << p->dados.nome << endl;
+        if (poke == p->dados.nome) // Elemento encontrado.
+        {
+            return p;
+        }
+        else if (poke < p->dados.nome) // Procura na subárvore esquerda.
+        {
+            return pokeSearch(p->left, poke);
+        }
+        else // Procura na subárvore direita.
+        {
+            return pokeSearch(p->right, poke);
+        }
+    }
+}
+
 treenodeptr tMenor(treenodeptr &p) {
     treenodeptr t;
     t = p;
@@ -301,13 +342,13 @@ treenodeptr tMenor(treenodeptr &p) {
         return tMenor(p->left);
 }
 
-bool tRemove(treenodeptr &p, pokemon poke){
+bool pokeRemove(treenodeptr &p, string nome){
     treenodeptr pk;
     
     if(p == NULL)
         return false;
         
-    if(compara_pokemon(poke, p->dados) == 0){
+    if(compara_nome_pokemon(nome, p->dados) == 0){
         pk = p;
         
         if(p->left == NULL)
@@ -318,20 +359,20 @@ bool tRemove(treenodeptr &p, pokemon poke){
                 p = p->left;
             
             else{
-                p = tMenor(p->right);
-                p->dados = p->dados;
+                pk = tMenor(p->right);
+                p->dados = pk->dados;
             }
         }
         
-        delete p;
+        delete pk;
         return true;
     }
     
     else{
-        if(compara_pokemon(poke, p->dados) == -1)
-            return tRemove(p->left, poke);
+        if(compara_nome_pokemon(nome, p->dados) == -1)
+            return pokeRemove(p->left, nome);
         else
-            return tRemove(p->right, poke);
+            return pokeRemove(p->right, nome);
     }
 }
 
@@ -343,9 +384,10 @@ int main()
 
 	// Declarando variaveis
 	int num_vertices, arestas, menu = 1;
-	bool orientado;
-	treenodeptr arvore = NULL;
+	bool orientado, removido;
+	treenodeptr arvore = NULL, encontrado;
 	pokemon novo_pokemon;
+	string op, a_remover;
 
 	// Introdução
 	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
@@ -386,6 +428,10 @@ int main()
 			 << endl
 			 << "4-Fazer a Inserção dos Pokémons"
 			 << endl
+			 << "5-Pesquisar os pokémons"
+			 << endl
+			 << "6-Remover algum pokémon"
+			 << endl
 			 << "Pressione qualquer outro número pra sair"
 			 << endl;
 		cin >> menu;
@@ -412,7 +458,30 @@ int main()
 			dados_pokemon(novo_pokemon);
 			pokeInsert(arvore, novo_pokemon);
 			break;
-			// Caso receba outro valor: sai do loop
+		case 5 :
+			// Caso 5: busca os pokémons na árvore.
+			cout << "Digite o nome do pokémon que deseja pesquisar: ";
+			getline(cin >> ws, op);
+			encontrado = pokeSearch(arvore, op);
+			if(encontrado != NULL){
+				cout << "Encontrado" << endl;
+			} else{
+			 cout << "Não encontrado" << endl;
+			}
+			break;
+		case 6:	
+			// Caso 6: Remove os pokémons na árvore.
+			cout << "Digite o nome do pokémon que deseja remover: ";
+			getline(cin >> ws, a_remover);
+			removido = pokeRemove(arvore, a_remover);
+			if(removido){
+				cout << "Removido" << endl;
+			} else{
+				cout << "Não encontrado para remoção" << endl;
+			}
+			break;
+				
+		// Caso receba outro valor: sai do loop
 		default:
 			menu = 0;
 		}
