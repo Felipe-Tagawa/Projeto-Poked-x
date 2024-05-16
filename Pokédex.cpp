@@ -455,7 +455,6 @@ int main()
 			break;
 		case 6:	
 			// Caso 6: Remove os pokémons na árvore.
-			
 			removerPokemon(arvore);
 			break;
 				
