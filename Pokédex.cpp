@@ -527,7 +527,7 @@ int main()
         	break;
       */
       
-   	  /*case 9:
+      /*case 9:
 		  	// Caso 9: Conta quantos pokémons de determinado tipo:  (acredito que seja um pra escolher e não todos).
 		  	conta_poke_tipo(arvore, type);
 		  	break;	
@@ -537,7 +537,7 @@ int main()
 			// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
 			print_poke_coord;
 			break;	  	
- 	  */  
+      */  
  	 
         default: // Caso receba outro valor: sai do loop.
             menu = 0;
