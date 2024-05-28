@@ -95,7 +95,7 @@ Eevee
 133
 22 77
 4
-Mew Two
+MewTwo
 14
 18
 680
