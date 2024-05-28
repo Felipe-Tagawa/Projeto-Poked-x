@@ -54,169 +54,169 @@ Celestic Town
 
 4
 Lucario
-17
 10
+0
 448
 72 91
 4
 Decidueye
-9
-2
+8
+5
 724
 65 36
 4
 Zapdos
-13
-12
+3
+17
 145
 120 52
 4
 Greninja
-0
-15
+1
+12
 658
 47 158
 4
 Blaziken
-1
+6
 10
 257
 4 190
 4
 Mew
-6
+14
 18
 151
 169 74
 4
 Eevee
-4
+11
 18
 133
 22 77
 4
 Mew Two
-6
+14
 18
 680
 75 39
 4
 Vulpix Alola
-15
+7
 18
 299
 156 56
 4
 Psyduck
-0
+1
 18
 320
 165 89
-4 
+4
 Scizor
-17
-3
+9
+0
 212
 82 61
-4 
+4
 Pinsir
-3
+9
 18
 127
 45 73
-4 
-Snorlax
 4
+Snorlax
+11
 18
 143
 103 55
-4 
+4
 Onix
-5
+13
 7
 95
 17 44
-4 
+4
 Tyranitar
-5
-11
+13
+12
 248
 59 22
-4 
+4
 Dragonite
-16
-12
+2
+17
 149
 124 97
-4 
+4
 Salamence
-16
-12
+2
+17
 373
 85 43
-4 
+4
 Bulbasaur
-2
 8
+16
 1
 53 92
-4 
+4
 Sceptile
-2
+8
 18
 254
 39 61
-4 
+4
 Umbreon
-11
+12
 18
 197
 109 30
-4 
+4
 Absol
-11
+12
 18
 359
 42 68
-4 
+4
 Golem
-5
+13
 7
 76
 102 118
-4 
+4
 Flygon
-16
+15
 7
 330
 25 84
-4 
+4
 Gardevoir
 14
-6
+5
 282
 121 37
-4 
+4
 Togekiss
 14
-12
+17
 468
 58 112
 4
 Ninetales Alola
-14
+7
 15
 505
 45 99
 4
 Solosis
-6
+14
 18
 577
 190 26
 4
 Minun
-13
+3
 18
 312
 115 150
