@@ -227,17 +227,14 @@ int compara_tipo_pokemon(int tipo1, pokemon poke) // Erro provavelmente está aq
 {
     if (tipo1 == poke.tipo1)
     {
-    	cout << "Retornou 0" << endl;
         return 0;
     }
     else if (tipo1 < poke.tipo1)
     {
-    	cout << "retornou -1" << endl;
         return -1;
     }
     else
     {
-    	cout << "Retornou 1" << endl;
         return 1;
     }
 }
