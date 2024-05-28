@@ -443,11 +443,58 @@ void inOrder_tipo(treenodeptr p)
 }
 
 
-/* caso 9:
-void conta_poke_tipo(arvore, type){
-
+// caso 9:
+void conta_poke_tipo(treenodeptr p){
+	
+	int escolha_tipo = 0;
+	cout << "Para mostrar quantos pokémons por tipo, digite os seguintes números para acessar : " << endl;
+	cout << endl;
+	do{
+	cout << "0 - Aço"
+	<< endl
+	<< "1 - Água"
+	<< endl
+	<< "2 - Dragão"
+	<< endl
+	<< "3 - Elétrico"
+	<< endl
+	<< "4 - Fada"
+	<< endl
+	<< "5 - Fantasma"
+	<< endl
+	<< "6 - Fogo"
+	<< endl
+	<< "7 - Gelo"
+	<< endl
+	<< "8 - Grama"
+	<< endl
+	<< "9 - Inseto"
+	<< endl
+	<< "10 - Lutador"
+	<< endl
+	<< "11 - Normal"
+	<< endl
+	<< "12 - Noturno"
+	<< endl
+	<< "13 - Pedra"
+	<< endl
+	<< "14 - Psíquico"
+	<< endl
+	<< "15 - Terrestre"
+	<< endl
+	<< "16 - Venenoso"
+	<< endl
+	<< "17 - Voador"
+	<< endl;
+		cin >> escolha_tipo;
+		if(escolha_tipo < 0 || escolha_tipo > 17){
+			break;
+		}
+	} while(escolha_tipo >= 0 || escolha_tipo <= 17);
+	cout << endl;
+	
 }
-*/
+
 
 /* caso 10:
 void print_poke_coord(){
@@ -561,21 +608,20 @@ int main()
 			// Caso 7: Mostra os pokémons em ordem de nome.
 			inOrder_nome(arvore_por_nome);
 			break;
-                case 8:
+        case 8:
 			// Caso 8: Mostra os pokémons em ordem de tipo.
 			inOrder_tipo(arvore_por_tipo);
 			break;
-			/*case 9:
+        case 9:
 			  	// Caso 9: Conta quantos pokémons de determinado tipo:  (acredito que seja um pra escolher e não todos).
-			  	conta_poke_tipo(arvore, type);
-			  	break;
-			*/
+			conta_poke_tipo(arvore_por_tipo);
+		  	break;
 
-			/*case 10:
-				// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
-				print_poke_coord;
-				break;
-			*/
+        /*case 10:
+        // caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
+        print_poke_coord;
+        break;
+	    */
 
 		default: // Caso receba outro valor: sai do loop.
 			menu = 0;
