@@ -239,8 +239,6 @@ int compara_tipo_pokemon(int tipo1, pokemon poke) // Erro provavelmente está aq
     }
 }
 
-// Problema pode ser que ele esteja inserindo certo, mas ordenando errado.
-// Pode ser que ele deixe o tipo 1 antes e o tipo 2 depois, quando há possibilidade de serem em ordem contrária de inserção.
 void pokeInsert_por_tipo(treenodeptr &p, pokemon poke_tipo)
 {
 	if (p == NULL)
@@ -249,11 +247,9 @@ void pokeInsert_por_tipo(treenodeptr &p, pokemon poke_tipo)
 		p->dados = poke_tipo;
 		p->left = NULL;
 		p->right = NULL;
-		cout << "Inserido por tipo: " << poke_tipo.nome << endl;
 	}
 	else
 	{
-		// Ele pode estar comparando apenas o número e não as letras para inserir(!!!!!!)
         int compare = compara_tipo_pokemon(poke_tipo.tipo1, p->dados);
 		if (compare < 0)
 		{
@@ -274,7 +270,7 @@ void pokeInsert_por_nome(treenodeptr &p, pokemon poke_nome)
 		p->dados = poke_nome;
 		p->left = NULL;
 		p->right = NULL;
-		cout << "Inserido: " << poke_nome.nome << endl;
+		cout << poke_nome.nome << " inserido com sucesso!" << endl;
 	}
 	else
 	{
@@ -433,7 +429,7 @@ void inOrder_tipo(treenodeptr p)
 		{
 			cout << "Mostrando os dados dos pokémons em ordem crescente de tipo: " << endl;
 			cout << endl;
-			cout << "Tipo1            | Tipo2      | Nome      | ID    | X     | Y" << endl;
+			cout << "Nome            | Tipo1      | Tipo2      | ID    | X     | Y" << endl;
 			hp = true;
 		}
         cout << left << setw(15) << p->dados.nome
@@ -442,7 +438,7 @@ void inOrder_tipo(treenodeptr p)
 			 << " | " << left << setw(5) << p->dados.id
 			 << " | " << left << setw(5) << p->dados.posicao.x
 			 << " | " << left << setw(5) << p->dados.posicao.y << endl;
-		inOrder_nome(p->right);
+		inOrder_tipo(p->right);
     }
 }
 
@@ -458,32 +454,6 @@ void print_poke_coord(){
 
 }
 */
-
-void Imprime_menu(){
-	cout << "MENU" << endl
-			 << "1-Entrada de dados das cidades"
-			 << endl
-			 << "2-Imprimir as cidades cadastradas"
-			 << endl
-			 << "3-Buscar cidade com centro pokémon mais próximo"
-			 << endl
-			 << "4-Fazer a Inserção dos Pokémons"
-			 << endl
-			 << "5-Pesquisar os pokémons"
-			 << endl
-			 << "6-Remover algum pokémon"
-			 << endl
-			 << "7-Imprimir pokémons cadastrados em ordem alfabética de nome"
-			 << endl
-			 << "8-Imprimir pokémons cadastrados em ordem alfabética de tipo"
-			 << endl
-			 << "9-Mostrar quantos pokémons de determinado tipo"
-			 << endl
-			 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros"
-			 << endl
-			 << "Pressione qualquer outro número pra sair"
-			 << endl;
-}
 
 int main()
 {
@@ -528,7 +498,29 @@ int main()
 	{
 		// Introducao do menu e entrada da variavel
 		cout << endl;
-		Imprime_menu();
+		cout << "MENU" << endl
+			 << "1-Entrada de dados das cidades"
+			 << endl
+			 << "2-Imprimir as cidades cadastradas"
+			 << endl
+			 << "3-Buscar cidade com centro pokémon mais próximo"
+			 << endl
+			 << "4-Fazer a Inserção dos Pokémons"
+			 << endl
+			 << "5-Pesquisar os pokémons"
+			 << endl
+			 << "6-Remover algum pokémon"
+			 << endl
+			 << "7-Imprimir pokémons cadastrados em ordem alfabética de nome"
+			 << endl
+			 << "8-Imprimir pokémons cadastrados em ordem alfabética de tipo"
+			 << endl
+			 << "9-Mostrar quantos pokémons de determinado tipo"
+			 << endl
+			 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros"
+			 << endl
+			 << "Pressione qualquer outro número pra sair"
+			 << endl;
 		cin >> menu;
 		cout << endl;
 
@@ -566,7 +558,7 @@ int main()
 			// Caso 7: Mostra os pokémons em ordem de nome.
 			inOrder_nome(arvore_por_nome);
 			break;
-      		case 8:
+        case 8:
 			// Caso 8: Mostra os pokémons em ordem de tipo.
 			inOrder_tipo(arvore_por_tipo);
 			break;
