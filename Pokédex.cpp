@@ -565,7 +565,7 @@ int main()
 			// Caso 7: Mostra os pokémons em ordem de nome.
 			inOrder_nome(arvore_por_nome);
 			break;
-        case 8:
+      		case 8:
 			// Caso 8: Mostra os pokémons em ordem de tipo.
 			inOrder_tipo(arvore_por_tipo);
 			break;
