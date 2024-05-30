@@ -442,11 +442,25 @@ void inOrder_tipo(treenodeptr p)
     }
 }
 
+void conta_tipo(treenodeptr p, int tipo, int& i){
+	
+	if(p!=NULL)
+	{
+		//cout << "Comparando: " << tipo << " com " << p->dados.tipo1 << endl;
+		if (tipo == p->dados.tipo1 || tipo == p->dados.tipo2) // Elemento encontrado.
+		{
+			i++;
+		}
+		conta_tipo(p->left, tipo, i);
+		conta_tipo(p->right, tipo, i);
+	}
+	//
+}
 
 // caso 9:
-void conta_poke_tipo(treenodeptr p){
+void imprime_poke_tipo(treenodeptr p){
 	
-	int escolha_tipo = 0;
+	int escolha_tipo = 0, i=0;
 	cout << "Para mostrar quantos pokémons por tipo, digite os seguintes números para acessar : " << endl;
 	cout << endl;
 	do{
@@ -486,10 +500,15 @@ void conta_poke_tipo(treenodeptr p){
 	<< endl
 	<< "17 - Voador"
 	<< endl;
+	<< "Caso queira sair, insira um número fora do intervalo de 0 a 17"
+	<< endl;
 		cin >> escolha_tipo;
 		if(escolha_tipo < 0 || escolha_tipo > 17){
 			break;
 		}
+		conta_tipo(p, escolha_tipo, i);
+		cout << i << " pokémons do tipo " << tipo1[escolha_tipo] << endl;
+		i=0;
 	} while(escolha_tipo >= 0 || escolha_tipo <= 17);
 	cout << endl;
 	
@@ -614,7 +633,7 @@ int main()
 			break;
         case 9:
 			  	// Caso 9: Conta quantos pokémons de determinado tipo:  (acredito que seja um pra escolher e não todos).
-			conta_poke_tipo(arvore_por_tipo);
+			imprime_poke_tipo(arvore_por_tipo);
 		  	break;
 
         /*case 10:
