@@ -33,7 +33,7 @@ struct pokemon
 
 struct treenode
 {
-	pokemon dados; // Dados dos pokémon para inserí-los.
+	pokemon dados;
 	treenode *left;
 	treenode *right;
 };
@@ -201,7 +201,6 @@ typedef treenode *treenodeptr;
 
 void dados_pokemon(pokemon &poke)
 {
-	// Passando por referência para modificar o objeto real
 	cout << "Escreva o nome, o tipo1, o tipo2, o id, e as coordenadas x e y do seu Pokémon: " << endl;
 	getline(cin >> ws, poke.nome);
 	cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
@@ -223,7 +222,7 @@ int compara_nome_pokemon(string &nome, pokemon &poke)
 	}
 }
 
-int compara_tipo_pokemon(int tipo1, pokemon poke) // Erro provavelmente está aqui
+int compara_tipo_pokemon(int tipo1, pokemon poke)
 {
     if (tipo1 == poke.tipo1)
     {
@@ -444,7 +443,7 @@ void inOrder_tipo(treenodeptr p)
 
 void conta_tipo(treenodeptr p, int tipo, int& i){
 	
-	if(p!=NULL)
+	if(p != NULL)
 	{
 		//cout << "Comparando: " << tipo << " com " << p->dados.tipo1 << endl;
 		if (tipo == p->dados.tipo1 || tipo == p->dados.tipo2) // Elemento encontrado.
@@ -454,7 +453,6 @@ void conta_tipo(treenodeptr p, int tipo, int& i){
 		conta_tipo(p->left, tipo, i);
 		conta_tipo(p->right, tipo, i);
 	}
-	//
 }
 
 // caso 9:
@@ -632,7 +630,7 @@ int main()
 			inOrder_tipo(arvore_por_tipo);
 			break;
         case 9:
-			  	// Caso 9: Conta quantos pokémons de determinado tipo:  (acredito que seja um pra escolher e não todos).
+			  	// Caso 9: Conta quantos pokémons de determinado tipo:
 			imprime_poke_tipo(arvore_por_tipo);
 		  	break;
 
