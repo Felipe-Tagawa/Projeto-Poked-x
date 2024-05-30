@@ -497,7 +497,7 @@ void imprime_poke_tipo(treenodeptr p){
 	<< "16 - Venenoso"
 	<< endl
 	<< "17 - Voador"
-	<< endl;
+	<< endl
 	<< "Caso queira sair, insira um número fora do intervalo de 0 a 17"
 	<< endl;
 		cin >> escolha_tipo;
@@ -505,8 +505,10 @@ void imprime_poke_tipo(treenodeptr p){
 			break;
 		}
 		conta_tipo(p, escolha_tipo, i);
-		cout << i << " pokémons do tipo " << tipo1[escolha_tipo] << endl;
-		i=0;
+		cout << endl;
+		cout << "Há " << i << " Pokémon(s) do tipo " << tipo1[escolha_tipo] << endl;
+		cout << endl;
+		i = 0;
 	} while(escolha_tipo >= 0 || escolha_tipo <= 17);
 	cout << endl;
 	
@@ -518,6 +520,33 @@ void print_poke_coord(){
 
 }
 */
+
+void exibe_introducao(int &orientado, int &num_vertices, int &arestas){
+	// Introdução
+	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
+	// cout << "\x1b[3mEste texto está em itálico!\x1b[0m" << endl; // Texto em itálico.
+	cout << endl;
+	
+	// Entrada dos dados do grafo a ser contruido:
+	cout << "Escreva o número de cidades e o número de caminhos:" << endl;
+	cin >> num_vertices >> arestas;
+	
+	// Definindo se o grafo sera orientado ou não:
+	cout << "Agora, preciso que escolha se há possibilidade de retorno de uma cidade a outra, para isso: " << endl;
+	cout << "Digite '0' para dizer se o caminho será não orientado ou '1' para orientado." << endl;
+
+	do{
+		cin >> orientado;
+		if(orientado == 0 || orientado == 1){
+			break;
+		}
+		cout << "Desculpe, valor inserido fora dos limites declarados!" << endl;
+		cout << "Digite '0' para dizer se o caminho será não orientado ou '1' para orientado." << endl;
+		
+	}while(orientado != 0 || orientado != 1);
+	
+}
+
 void Imprime_menu(){
 	cout << "MENU" << endl
 			 << "1-Entrada de dados das cidades"
@@ -551,36 +580,14 @@ int main()
 	system("color 74"); // Altera cor do terminal.
 
 	// Declarando variaveis
-	int num_vertices, arestas, menu = 1;
-	bool orientado;
+	int num_vertices, arestas, orientado, menu = 1;
 	treenodeptr arvore_por_nome = NULL;
 	treenodeptr arvore_por_tipo = NULL;
 	pokemon novo_pokemon;
+	
+	exibe_introducao(orientado,num_vertices,arestas);
 
-	// Introdução
-	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
-	// cout << "\x1b[3mEste texto está em itálico!\x1b[0m" << endl; // Texto em itálico.
-	cout << endl;
-
-	// Entrada dos dados do grafo a ser contruido:
-	cout << "Escreva o número de cidades e o número de caminhos:" << endl;
-	cin >> num_vertices >> arestas;
 	cidades cidade[num_vertices];
-
-	// Definindo se o grafo sera orientado ou nao
-	cout << "Digite '0' para dizer se o caminho será não é orientado ou '1' para orientado." << endl;
-
-	do
-	{
-		cin >> orientado;
-		if (orientado == 0 || orientado == 1)
-		{
-			break;
-		}
-
-		cout << "Digite '0' para dizer se o caminho será não é orientado ou '1' para orientado." << endl;
-	}
-	while (orientado != 0 || orientado != 1);
 
 	// Codigo de menu simples, usando a variavel menu no loop
 	while (menu != 0)
