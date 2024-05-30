@@ -527,6 +527,32 @@ void Imprime_menu(){
 			 << endl;
 }
 
+void Imprime_menu(){
+	cout << "MENU" << endl
+			 << "1-Entrada de dados das cidades"
+			 << endl
+			 << "2-Imprimir as cidades cadastradas"
+			 << endl
+			 << "3-Buscar cidade com centro pokémon mais próximo"
+			 << endl
+			 << "4-Fazer a Inserção dos Pokémons"
+			 << endl
+			 << "5-Pesquisar os pokémons"
+			 << endl
+			 << "6-Remover algum pokémon"
+			 << endl
+			 << "7-Imprimir pokémons cadastrados em ordem alfabética de nome"
+			 << endl
+			 << "8-Imprimir pokémons cadastrados em ordem alfabética de tipo"
+			 << endl
+			 << "9-Mostrar quantos pokémons de determinado tipo"
+			 << endl
+			 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros"
+			 << endl
+			 << "Pressione qualquer outro número pra sair"
+			 << endl;
+}
+
 int main()
 {
 	// Permitindo acentuação no código
