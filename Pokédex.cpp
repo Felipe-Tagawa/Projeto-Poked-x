@@ -593,6 +593,8 @@ void Imprime_menu(){
 			 << endl
 			 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros"
 			 << endl
+			 << "11-Mostrar o perímetro do fecho convexo formado pelos pokémons"
+	     	 	 << endl
 			 << "Pressione qualquer outro número pra sair"
 			 << endl;
 }
