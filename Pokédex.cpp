@@ -5,6 +5,7 @@
 #include <climits>
 #include <locale.h>
 #include <windows.h> // Para conseguir alterar a cor do terminal.
+#include <cmath>
 
 using namespace std;
 
@@ -514,12 +515,35 @@ void imprime_poke_tipo(treenodeptr p){
 	
 }
 
-
-/* caso 10:
-void print_poke_coord(){
-
+// caso 10:
+bool pokemon_no_raio(ponto p1, ponto p2) {
+    int dx = p2.x - p1.x;
+    int dy = p2.y - p1.y;
+    double distancia = sqrt(dx * dx + dy * dy);
+    return distancia <= 100;
 }
-*/
+
+void contar_pokemons(treenodeptr p, ponto minha_posicao, int &contador) {
+	if (p != NULL) {
+        if (pokemon_no_raio(minha_posicao, p->dados.posicao)) {
+            contador++;
+        }
+        contar_pokemons(p->left, minha_posicao, contador);
+        contar_pokemons(p->right, minha_posicao, contador);
+    }   
+}
+
+void consultar_pokemons_no_raio(treenodeptr p) {
+    ponto minha_posicao;
+    int contador = 0;
+
+    cout << "Para ter acesso à quantidade de pokémons dentro de um raio de 100 metros, digite suas coordenadas (x e y): " << endl;
+    cin >> minha_posicao.x >> minha_posicao.y;
+
+    contar_pokemons(p, minha_posicao, contador);
+
+    cout << contador << " pokémons dentro do raio!" << endl;
+}
 
 void exibe_introducao(int &orientado, int &num_vertices, int &arestas){
 	// Introdução
@@ -580,10 +604,11 @@ int main()
 	system("color 74"); // Altera cor do terminal.
 
 	// Declarando variaveis
-	int num_vertices, arestas, orientado, menu = 1;
+	int num_vertices, arestas, orientado, menu = 1, contador = 0;
 	treenodeptr arvore_por_nome = NULL;
 	treenodeptr arvore_por_tipo = NULL;
 	pokemon novo_pokemon;
+	ponto minha_posicao;
 	
 	exibe_introducao(orientado,num_vertices,arestas);
 
@@ -637,16 +662,19 @@ int main()
 			inOrder_tipo(arvore_por_tipo);
 			break;
         case 9:
-			  	// Caso 9: Conta quantos pokémons de determinado tipo:
+            // Caso 9: Conta quantos pokémons de determinado tipo:
 			imprime_poke_tipo(arvore_por_tipo);
 		  	break;
-
-        /*case 10:
-        // caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
-        print_poke_coord;
-        break;
-	    */
-
+        case 10:
+        	// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
+        	consultar_pokemons_no_raio(arvore_por_nome);
+        	break;
+        // case 11:
+        	// caso 11: Calcula o perímetro do menor fecho convexo formado por pokémons.
+        // 	calcula_perimetro();
+        // 	break;
+ 	    
+	    
 		default: // Caso receba outro valor: sai do loop.
 			menu = 0;
 		}
