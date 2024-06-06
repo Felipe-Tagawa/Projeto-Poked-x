@@ -545,6 +545,11 @@ void consultar_pokemons_no_raio(treenodeptr p) {
     cout << contador << " pokémons dentro do raio!" << endl;
 }
 
+// caso 11:
+// void calcula_perimetro(){
+// 	
+// }
+
 void exibe_introducao(int &orientado, int &num_vertices, int &arestas){
 	// Introdução
 	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
