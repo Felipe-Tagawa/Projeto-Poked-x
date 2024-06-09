@@ -1,3 +1,4 @@
+
 // Beatriz Vaz, Felipe Loschi, Felipe Reis, João Gabriel Chereze, Pedro Henrique Dias
 #include <iostream>
 #include <iomanip>
@@ -37,6 +38,7 @@ struct treenode
 	pokemon dados;
 	treenode *left;
 	treenode *right;
+	int height;
 };
 
 struct Estrada
@@ -550,6 +552,16 @@ void consultar_pokemons_no_raio(treenodeptr p) {
 // 	
 // }
 
+
+void tDestruir(treenodeptr &p){
+	if(p != NULL){
+		tDestruir(p->left);
+		tDestruir(p->right);
+		delete p;
+	}
+	p = NULL;
+}
+
 void exibe_introducao(int &orientado, int &num_vertices, int &arestas){
 	// Introdução
 	cout << "Olá, treinador. Bem vindo ao sistema de localização de pokémons!" << endl;
@@ -604,6 +616,114 @@ void Imprime_menu(){
 			 << endl;
 }
 
+
+
+
+
+
+
+
+
+
+
+int height(treenodeptr n) {
+    return n ? n->height : 0;
+}
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+treenodeptr newNode(pokemon data) {
+    treenodeptr node = new treenode();
+    node->dados = data;
+    node->left = node->right = NULL;
+    node->height = 1; // Novo nó é inicialmente adicionado na folha
+    return node;
+}
+
+treenodeptr rightRotate(treenodeptr y) {
+    treenodeptr x = y->left;
+    treenodeptr T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
+
+    return x;
+}
+
+treenodeptr leftRotate(treenodeptr x) {
+    treenodeptr y = x->right;
+    treenodeptr T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+
+    return y;
+}
+
+int getBalance(treenodeptr n) {
+    return n ? height(n->left) - height(n->right) : 0;
+}
+
+treenodeptr pokeInsert_nome_AVL(treenodeptr node, pokemon data) {
+    if (!node)
+        return newNode(data);
+
+    if (data.nome < node->dados.nome)
+        node->left = pokeInsert_nome_AVL(node->left, data);
+    else if (data.nome > node->dados.nome)
+        node->right = pokeInsert_nome_AVL(node->right, data);
+    else // Nomes iguais não são permitidos na BST
+        return node;
+
+    node->height = 1 + max(height(node->left), height(node->right));
+
+    int balance = getBalance(node);
+
+    // Caso Esquerda-Esquerda
+    if (balance > 1 && data.nome < node->left->dados.nome)
+        return rightRotate(node);
+
+    // Caso Direita-Direita
+    if (balance < -1 && data.nome > node->right->dados.nome)
+        return leftRotate(node);
+
+    // Caso Esquerda-Direita
+    if (balance > 1 && data.nome > node->left->dados.nome) {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+
+    // Caso Direita-Esquerda
+    if (balance < -1 && data.nome < node->right->dados.nome) {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return node;
+}
+	
+void pesquisarPokemon(treenodeptr p, int id, int &contador) {
+    if(p == NULL) {  // Se o nó for nulo (elemento não encontrado)
+        return;
+    } else if(id == p->dados.id) {  // Se o elemento for encontrado na raiz
+        return;
+    } else if(id < p->dados.id) {  // Se o elemento procurado for menor que a informação do nó
+        contador++;  // Incrementa o contador
+        pesquisarPokemon(p->left, id, contador);  // Procura na subárvore esquerda
+    } else {  // Se o elemento procurado for maior que a informação do nó
+        contador++;  // Incrementa o contador
+        pesquisarPokemon(p->right, id, contador);  // Procura na subárvore direita
+    }
+}
+
 int main()
 {
 	// Permitindo acentuação no código
@@ -620,7 +740,14 @@ int main()
 	exibe_introducao(orientado,num_vertices,arestas);
 
 	cidades cidade[num_vertices];
-
+	
+	
+	
+	treenodeptr arvore_AVL = NULL;
+	
+	
+	
+	
 	// Codigo de menu simples, usando a variavel menu no loop
 	while (menu != 0)
 	{
@@ -651,6 +778,7 @@ int main()
 			dados_pokemon(novo_pokemon);
 			pokeInsert_por_nome(arvore_por_nome, novo_pokemon);
 			pokeInsert_por_tipo(arvore_por_tipo, novo_pokemon);
+			arvore_AVL = pokeInsert_nome_AVL(arvore_AVL, novo_pokemon);
 			break;
 		case 5:
 			// Caso 5: busca os pokémons na árvore.
@@ -676,6 +804,19 @@ int main()
         	// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
         	consultar_pokemons_no_raio(arvore_por_nome);
         	break;
+    	case 12:
+                int id;
+                cout << "Insira o ID do Pokémon que deseja buscar: ";
+                cin >> id;
+                // Caso 5: Busca os pokémons na árvore
+                int contador;
+                contador = 1; // Inicializa o contador com 1
+                pesquisarPokemon(arvore_AVL, id, contador);
+                cout << "Número de comparações AVL: " << contador << endl;
+                contador = 1;
+                pesquisarPokemon(arvore_por_nome, id, contador);
+                cout << "Número de comparações normal: " << contador << endl;
+                break;
         // case 11:
         	// caso 11: Calcula o perímetro do menor fecho convexo formado por pokémons.
         // 	calcula_perimetro();
@@ -686,5 +827,9 @@ int main()
 			menu = 0;
 		}
 	}
+	
+	tDestruir(arvore_por_nome);
+	tDestruir(arvore_por_tipo);
+	tDestruir(arvore_AVL);
 	return 0;
 }
