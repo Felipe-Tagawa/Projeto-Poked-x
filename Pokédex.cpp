@@ -198,6 +198,7 @@ void busca_centro(cidades cidade[], int num_vertices)
 
 		end = shortest_path_dijkstra(cidade, num_vertices, pos);
 		cout << "A cidade mais próxima com um centro Pokémon é: " << cidade[end].nome << endl;
+		// mostrar melhor caminho para o centro pokémon mais próximo
 	}
 }
 
