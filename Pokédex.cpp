@@ -10,13 +10,17 @@
 
 using namespace std;
 
-string tipo1[18] = {
+string tipo1[18] =
+{
 	"Aço", "Água", "Dragão", "Elétrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
-	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador"};
+	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador"
+};
 
-string tipo2[19] = {
+string tipo2[19] =
+{
 	"Aço", "Água", "Dragão", "Elétrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
-	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador", "Null"};
+	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador", "Null"
+};
 
 struct ponto
 {
@@ -35,7 +39,7 @@ struct treenode
 	pokemon dados;
 	treenode *left;
 	treenode *right;
-	int height;
+	int height; // AVL.
 };
 
 struct Estrada
@@ -80,11 +84,11 @@ void entrada_grafo(cidades cidade[], int num_vertices, int arestas, bool orienta
 	{
 		cin >> origem >> destino >> peso;
 
-		cidade[origem].vizinhos.push_back({origem, destino, peso});
+		cidade[origem].vizinhos.push_back( {origem, destino, peso});
 
 		if (orientado == 0)
 		{
-			cidade[destino].vizinhos.push_back({destino, origem, peso});
+			cidade[destino].vizinhos.push_back( {destino, origem, peso});
 		}
 	}
 }
@@ -199,11 +203,33 @@ void busca_centro(cidades cidade[], int num_vertices)
 
 typedef treenode *treenodeptr;
 
+void imprime_tipos() {
+    cout << "Tipos de Pokémon:";
+
+    for (int i = 0; i < 19; i++) {
+        cout << "(" << i << ") " << tipo2[i];
+        if (i < 18) {
+            cout << ", ";
+        } else {
+            cout << endl;
+        }
+    }
+}
+
 void dados_pokemon(pokemon &poke)
 {
 	cout << "Escreva o nome, o tipo1, o tipo2, o id, e as coordenadas x e y do seu Pokémon: " << endl;
+	cout << "Nome : ";
 	getline(cin >> ws, poke.nome);
-	cin >> poke.tipo1 >> poke.tipo2 >> poke.id >> poke.posicao.x >> poke.posicao.y;
+	imprime_tipos();
+	cout << "Tipo 1: ";
+	cin >> poke.tipo1;
+	cout << "Tipo 2: ";
+	cin >> poke.tipo2;
+	cout << "ID: ";
+	cin >> poke.id;
+	cout << "(X, Y) = ";
+    cin >> poke.posicao.x >> poke.posicao.y;
 }
 
 int compara_nome_pokemon(string &nome, pokemon &poke)
@@ -503,7 +529,7 @@ void imprime_poke_tipo(treenodeptr p)
 			 << endl
 			 << "Caso queira sair, insira um número fora do intervalo de 0 a 17"
 			 << endl;
-			 
+
 		cin >> escolha_tipo;
 		if (escolha_tipo < 0 || escolha_tipo > 17)
 		{
@@ -513,8 +539,9 @@ void imprime_poke_tipo(treenodeptr p)
 		cout << endl;
 		cout << "Há " << i << " Pokémon(s) do tipo " << tipo1[escolha_tipo] << endl;
 		cout << endl;
-		i = 0;
-	} while (escolha_tipo >= 0 || escolha_tipo <= 17);
+		i = 0; // Resetar p/ a próxima iteração.
+	}
+	while (escolha_tipo >= 0 && escolha_tipo <= 17);
 	cout << endl;
 }
 
@@ -570,7 +597,8 @@ void gift_wraping(vector<ponto> &points, int n)
 
 		p = q;
 
-	} while (p != l);
+	}
+	while (p != l);
 
 	// Imprime o resultado
 	for (int i = 0; (i < fecho.size() - 1); i++)
@@ -642,7 +670,8 @@ void exibe_introducao(int &orientado, int &num_vertices, int &arestas)
 		cout << "Desculpe, valor inserido fora dos limites declarados!" << endl;
 		cout << "Digite '0' para dizer se o caminho será náo orientado ou '1' para orientado." << endl;
 
-	} while (orientado != 0 || orientado != 1);
+	}
+	while (orientado != 0 || orientado != 1);
 }
 
 void Imprime_menu()
@@ -676,112 +705,146 @@ void Imprime_menu()
 		 << endl;
 }
 
-int height(treenodeptr n) {
-    return n ? n->height : 0;
+int height(treenodeptr n)
+{
+	return n ? n->height : 0;
 }
 
-int max(int a, int b) {
-    return (a > b) ? a : b;
+int max(int a, int b)
+{
+	return (a > b) ? a : b;
 }
 
-treenodeptr newNode(pokemon data) {
-    treenodeptr node = new treenode();
-    node->dados = data;
-    node->left = node->right = NULL;
-    node->height = 1; // Novo nó é inicialmente adicionado na folha
-    return node;
+treenodeptr newNode(pokemon data)
+{
+	treenodeptr node = new treenode();
+	node->dados = data;
+	node->left = node->right = NULL;
+	node->height = 1; // Novo nó é inicialmente adicionado na folha
+	return node;
 }
 
-treenodeptr rightRotate(treenodeptr y) {
-    treenodeptr x = y->left;
-    treenodeptr T2 = x->right;
+treenodeptr rightRotate(treenodeptr y)
+{
+	treenodeptr x = y->left;
+	treenodeptr T2 = x->right;
 
-    x->right = y;
-    y->left = T2;
+	x->right = y;
+	y->left = T2;
 
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
+	y->height = max(height(y->left), height(y->right)) + 1;
+	x->height = max(height(x->left), height(x->right)) + 1;
 
-    return x;
+	return x;
 }
 
-treenodeptr leftRotate(treenodeptr x) {
-    treenodeptr y = x->right;
-    treenodeptr T2 = y->left;
+treenodeptr leftRotate(treenodeptr x)
+{
+	treenodeptr y = x->right;
+	treenodeptr T2 = y->left;
 
-    y->left = x;
-    x->right = T2;
+	y->left = x;
+	x->right = T2;
 
-    x->height = max(height(x->left), height(x->right)) + 1;
-    y->height = max(height(y->left), height(y->right)) + 1;
+	x->height = max(height(x->left), height(x->right)) + 1;
+	y->height = max(height(y->left), height(y->right)) + 1;
 
-    return y;
+	return y;
 }
 
-int getBalance(treenodeptr n) {
-    return n ? height(n->left) - height(n->right) : 0;
+int getBalance(treenodeptr n)
+{
+	return n ? height(n->left) - height(n->right) : 0;
 }
 
-treenodeptr pokeInsert_nome_AVL(treenodeptr node, pokemon data) {
-    if (!node)
-        return newNode(data);
+treenodeptr pokeInsert_nome_AVL(treenodeptr node, pokemon data)
+{
+	if (!node)
+		return newNode(data);
 
-    if (data.nome < node->dados.nome)
-        node->left = pokeInsert_nome_AVL(node->left, data);
-    else if (data.nome > node->dados.nome)
-        node->right = pokeInsert_nome_AVL(node->right, data);
-    else // Nomes iguais não são permitidos na BST
-        return node;
+	if (data.nome < node->dados.nome)
+		node->left = pokeInsert_nome_AVL(node->left, data);
+	else if (data.nome > node->dados.nome)
+		node->right = pokeInsert_nome_AVL(node->right, data);
+	else // Nomes iguais não são permitidos na BST
+		return node;
 
-    node->height = 1 + max(height(node->left), height(node->right));
+	node->height = 1 + max(height(node->left), height(node->right));
 
-    int balance = getBalance(node);
+	int balance = getBalance(node);
 
-    // Caso Esquerda-Esquerda
-    if (balance > 1 && data.nome < node->left->dados.nome)
-        return rightRotate(node);
+	// Caso Esquerda-Esquerda
+	if (balance > 1 && data.nome < node->left->dados.nome)
+		return rightRotate(node);
 
-    // Caso Direita-Direita
-    if (balance < -1 && data.nome > node->right->dados.nome)
-        return leftRotate(node);
+	// Caso Direita-Direita
+	if (balance < -1 && data.nome > node->right->dados.nome)
+		return leftRotate(node);
 
-    // Caso Esquerda-Direita
-    if (balance > 1 && data.nome > node->left->dados.nome) {
-        node->left = leftRotate(node->left);
-        return rightRotate(node);
-    }
+	// Caso Esquerda-Direita
+	if (balance > 1 && data.nome > node->left->dados.nome)
+	{
+		node->left = leftRotate(node->left);
+		return rightRotate(node);
+	}
 
-    // Caso Direita-Esquerda
-    if (balance < -1 && data.nome < node->right->dados.nome) {
-        node->right = rightRotate(node->right);
-        return leftRotate(node);
-    }
+	// Caso Direita-Esquerda
+	if (balance < -1 && data.nome < node->right->dados.nome)
+	{
+		node->right = rightRotate(node->right);
+		return leftRotate(node);
+	}
 
-    return node;
-}
-	
-void pesquisarPokemon(treenodeptr p, string nome, int &contador) {
-    if(p == NULL) {  // Se o nó for nulo (elemento não encontrado)
-        return;
-    } else if(nome == p->dados.nome) {  // Se o elemento for encontrado na raiz
-        return;
-    } else if(nome < p->dados.nome) {  // Se o elemento procurado for menor que a informação do nó
-        contador++;  // Incrementa o contador
-        pesquisarPokemon(p->left, nome, contador);  // Procura na subárvore esquerda
-    } else {  // Se o elemento procurado for maior que a informação do nó
-        contador++;  // Incrementa o contador
-        pesquisarPokemon(p->right, nome, contador);  // Procura na subárvore direita
-    }
+	return node;
 }
 
-void tDestruir(treenodeptr &p){
-	if(p != NULL){
+void pesquisarPokemon(treenodeptr p, string nome, int &contador)
+{
+	if(p == NULL)    // Se o nó for nulo (elemento não encontrado)
+	{
+		return;
+	}
+	else if(nome == p->dados.nome)      // Se o elemento for encontrado na raiz
+	{
+		return;
+	}
+	else if(nome < p->dados.nome)      // Se o elemento procurado for menor que a informação do nó
+	{
+		contador++;  // Incrementa o contador
+		pesquisarPokemon(p->left, nome, contador);  // Procura na subárvore esquerda
+	}
+	else      // Se o elemento procurado for maior que a informação do nó
+	{
+		contador++;  // Incrementa o contador
+		pesquisarPokemon(p->right, nome, contador);  // Procura na subárvore direita
+	}
+}
+
+void comparaAVL(string &nome_poke,treenodeptr &arvore_AVL, treenodeptr &arvore_por_nome)
+{
+	cout << "Insira o nome do Pokémon que deseja buscar: ";
+	cin >> nome_poke;
+	// Caso 5: Busca os pokémons na árvore
+	int contador;
+	contador = 1; // Inicializa o contador com 1
+	pesquisarPokemon(arvore_AVL, nome_poke, contador);
+	cout << "Número de comparações AVL: " << contador << endl;
+	contador = 1;
+	pesquisarPokemon(arvore_por_nome, nome_poke, contador);
+	cout << "Número de comparações da árvore normal: " << contador << endl;
+}
+
+void tDestruir(treenodeptr &p)
+{
+	if(p != NULL)
+	{
 		tDestruir(p->left);
 		tDestruir(p->right);
 		delete p;
 	}
 	p = NULL;
 }
+
 
 int main()
 {
@@ -791,6 +854,7 @@ int main()
 
 	// Declarando variaveis
 	int num_vertices, arestas, orientado, menu = 1;
+	string nome_poke;
 	treenodeptr arvore_por_nome = NULL;
 	treenodeptr arvore_por_tipo = NULL;
 	treenodeptr arvore_AVL = NULL;
@@ -800,7 +864,6 @@ int main()
 
 	cidades cidade[num_vertices];
 
-	string nome_poke;
 	// Codigo de menu simples, usando a variavel menu no loop
 	while (menu != 0)
 	{
@@ -857,29 +920,20 @@ int main()
 			// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
 			consultar_pokemons_no_raio(arvore_por_nome);
 			break;
-		
+
 		case 11:
-                cout << "Insira o nome do Pokémon que deseja buscar: ";
-                cin >> nome_poke;
-                // Caso 5: Busca os pokémons na árvore
-                int contador;
-                contador = 1; // Inicializa o contador com 1
-                pesquisarPokemon(arvore_AVL, nome_poke, contador);
-                cout << "Número de comparações AVL: " << contador << endl;
-                contador = 1;
-                pesquisarPokemon(arvore_por_nome, nome_poke, contador);
-                cout << "Número de comparações da árvore normal: " << contador << endl;
-                break;
-            
+			// Caso 11: Mostra a comparação entre as árvores.
+			comparaAVL(nome_poke, arvore_AVL, arvore_por_nome);
+			break;
 		default: // Caso receba outro valor: sai do loop.
 			menu = 0;
 			break;
 		}
 	}
-	
+
 	tDestruir(arvore_por_nome);
 	tDestruir(arvore_por_tipo);
 	tDestruir(arvore_AVL);
-	
+
 	return 0;
 }
