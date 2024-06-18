@@ -3,19 +3,19 @@
 #include <iomanip>
 #include <list>
 #include <climits>
-#include <locale.h>
+#include <locale.h> // Possibilitar a acentuação.
 #include <windows.h> // Para conseguir alterar a cor do terminal.
 #include <cmath>
-#include <vector>
+#include <vector> // Algoritmos geométricos.
 
 using namespace std;
 
 string tipo1[18] = {
-	"Aço", "Água", "Dragão", "Eletrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
+	"Aço", "Água", "Dragão", "Elétrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
 	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador"};
 
 string tipo2[19] = {
-	"Aço", "Água", "Dragão", "Eletrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
+	"Aço", "Água", "Dragão", "Elétrico", "Fada", "Fantasma", "Fogo", "Gelo", "Grama",
 	"Inseto", "Lutador", "Normal", "Noturno", "Pedra", "Psíquico", "Terrestre", "Venenoso", "Voador", "Null"};
 
 struct ponto
@@ -503,6 +503,7 @@ void imprime_poke_tipo(treenodeptr p)
 			 << endl
 			 << "Caso queira sair, insira um número fora do intervalo de 0 a 17"
 			 << endl;
+			 
 		cin >> escolha_tipo;
 		if (escolha_tipo < 0 || escolha_tipo > 17)
 		{
@@ -540,13 +541,12 @@ void gift_wraping(vector<ponto> &points, int n)
 {
 	double perimetro = 0;
 
-	// Deve haver pelomenos 3 pontos
+	// Deve haver pelo menos 3 pontos
 	if (n < 3)
 		return;
 
-	int next[n];
-	for (int i = 0; i < n; i++)
-		next[i] = -1;
+	// Inicializando a resposta
+	vector<ponto> fecho;
 
 	// Encontra o ponto mais a esquerda
 	int l = 0;
@@ -557,21 +557,28 @@ void gift_wraping(vector<ponto> &points, int n)
 	int p = l, q;
 	do
 	{
+		fecho.push_back(points[p]);
+
 		q = (p + 1) % n;
 		for (int i = 0; i < n; i++)
+		{
 			if (orientation(points[p], points[i], points[q]) == 2)
+			{
 				q = i;
+			}
+		}
 
-		next[p] = q;
 		p = q;
+
 	} while (p != l);
 
 	// Imprime o resultado
-	for (int i = 0; i < n; i++)
+	for (int i = 0; (i < fecho.size() - 1); i++)
 	{
-		if (next[i + 1] != -1)
-			perimetro += calcular_distancia(points[i], points[i + 1]);
+		perimetro += calcular_distancia(fecho[i], fecho[i + 1]);
 	}
+
+	perimetro += calcular_distancia(fecho[0], fecho[fecho.size() - 1]);
 
 	cout << "Perimetro: " << perimetro << endl;
 
@@ -633,7 +640,7 @@ void exibe_introducao(int &orientado, int &num_vertices, int &arestas)
 			break;
 		}
 		cout << "Desculpe, valor inserido fora dos limites declarados!" << endl;
-		cout << "Digite '0' para dizer se o caminho será não orientado ou '1' para orientado." << endl;
+		cout << "Digite '0' para dizer se o caminho será náo orientado ou '1' para orientado." << endl;
 
 	} while (orientado != 0 || orientado != 1);
 }
@@ -659,9 +666,12 @@ void Imprime_menu()
 		 << endl
 		 << "9-Mostrar quantos pokémons de determinado tipo"
 		 << endl
-		 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros e o perimetro do fecho convexo formado por esses pokemons"
+		 << "10-Mostrar quantos pokémons podem ser encontrados dentro de um raio de 100 metros e o "
 		 << endl
-		 << "11-Mostrar a diferença de comparações na busca entre a árvore normal e a balanceada"
+		 << "perímetro do fecho convexo formado por esses pokémons"
+		 << endl
+		 << "11-Mostrar a diferença de comparações na busca entre a árvore normal e a balanceada(AVL)"
+		 << endl
 		 << "Pressione qualquer outro número pra sair"
 		 << endl;
 }
@@ -780,12 +790,11 @@ int main()
 	system("color 74"); // Altera cor do terminal.
 
 	// Declarando variaveis
-	int num_vertices, arestas, orientado, menu = 1, contador = 0;
+	int num_vertices, arestas, orientado, menu = 1;
 	treenodeptr arvore_por_nome = NULL;
 	treenodeptr arvore_por_tipo = NULL;
 	treenodeptr arvore_AVL = NULL;
 	pokemon novo_pokemon;
-	ponto minha_posicao;
 
 	exibe_introducao(orientado, num_vertices, arestas);
 
@@ -859,7 +868,7 @@ int main()
                 cout << "Número de comparações AVL: " << contador << endl;
                 contador = 1;
                 pesquisarPokemon(arvore_por_nome, nome_poke, contador);
-                cout << "Número de comparações normal: " << contador << endl;
+                cout << "Número de comparações da árvore normal: " << contador << endl;
                 break;
             
 		default: // Caso receba outro valor: sai do loop.
