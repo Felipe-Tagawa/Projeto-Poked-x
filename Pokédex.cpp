@@ -986,6 +986,9 @@ int main()
 	return 0;
 }
 
+// Para o caso 3, escolher o código 134 no caso teste para melhor visualização, para os outros, ou as cidades são vizinhas,
+// ou já tem um centro pokémon.
+
 /*
 
 Caso teste com inserção de cidades e pokémons, sem as funcionalidades adicionais a partir do caso 5.
