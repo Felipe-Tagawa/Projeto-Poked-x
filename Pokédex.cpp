@@ -2,11 +2,12 @@
 #include <iostream>
 #include <iomanip>
 #include <list>
-#include <climits>
+#include <climits> // Grafos.
 #include <locale.h> // Possibilitar a acentuação.
 #include <windows.h> // Para conseguir alterar a cor do terminal.
-#include <cmath>
+#include <cmath> // Algoritmos geométricos.
 #include <vector> // Algoritmos geométricos.
+#include <stack> // Menor caminho Djikstra.
 
 using namespace std;
 
@@ -24,7 +25,7 @@ string tipo2[19] =
 
 struct ponto
 {
-	int x, y; // Coordenadas.
+	int x, y;
 };
 
 struct pokemon
@@ -123,56 +124,62 @@ void print_cidades(cidades cidade[], int numVertices)
 	}
 }
 
-int shortest_path_dijkstra(cidades cidades[], int vertices, int cod_atual)
-{
-	bool intree[vertices];
-	int distance[vertices], parent[vertices];
-	list<Estrada>::iterator p;
+void shortest_path_dijkstra(cidades cidades[], int vertices, int cod_atual, int &v) {
+    bool intree[vertices];
+    int distance[vertices], parent[vertices];
+    list<Estrada>::iterator p;
 
-	for (int u = 0; u < vertices; u++)
-	{
-		intree[u] = false;
-		distance[u] = INT_MAX;
-		parent[u] = -1;
-	}
-	distance[cod_atual] = 0;
-	int v = cod_atual;
-	while (intree[v] == false)
-	{
-		intree[v] = true;
-		for (p = cidades[v].vizinhos.begin(); p != cidades[v].vizinhos.end(); p++)
-		{
-			int dest = p->destino;
-			int weight = p->peso;
-			if (distance[dest] > distance[v] + weight)
-			{
-				distance[dest] = distance[v] + weight;
-				parent[dest] = v;
-			}
-		}
-		v = 0;
-		int dist = INT_MAX;
-		for (int u = 0; u < vertices; u++)
-		{
-			if (intree[u] == false && dist > distance[u])
-			{
-				dist = distance[u];
-				v = u;
-			}
-		}
-	}
-	v = 0;
-	int dist = INT_MAX;
-	for (int u = 0; u < vertices; u++)
-	{
-		if (intree[u] == true && dist > distance[u] && cidades[u].centro)
-		{
-			dist = distance[u];
-			v = u;
-		}
-	}
-	return v;
+    for (int u = 0; u < vertices; u++) {
+        intree[u] = false;
+        distance[u] = INT_MAX;
+        parent[u] = -1;
+    }
+    distance[cod_atual] = 0;
+    v = cod_atual;
+    while (!intree[v]) {
+        intree[v] = true;
+        for (p = cidades[v].vizinhos.begin(); p != cidades[v].vizinhos.end(); p++) {
+            int dest = p->destino;
+            int weight = p->peso;
+            if (distance[dest] > distance[v] + weight) {
+                distance[dest] = distance[v] + weight;
+                parent[dest] = v;
+            }
+        }
+        v = 0;
+        int dist = INT_MAX;
+        for (int u = 0; u < vertices; u++) {
+            if (!intree[u] && dist > distance[u]) {
+                dist = distance[u];
+                v = u;
+            }
+        }
+    }
+    v = 0;
+    int dist = INT_MAX;
+    for (int u = 0; u < vertices; u++) {
+        if (intree[u] && dist > distance[u] && cidades[u].centro) {
+            dist = distance[u];
+            v = u;
+        }
+    }
+    // Mostrar menor caminho: 
+    cout << "Menor caminho: ";
+    stack<int> caminho;
+    int atual = v;
+    while(atual != cod_atual) {
+        caminho.push(atual);
+        atual = parent[atual];
+    }
+    cout << cidades[cod_atual].nome;
+    while(!caminho.empty()) {
+        cout << " -> " << cidades[caminho.top()].nome;
+        caminho.pop();
+    }
+    cout << endl;
 }
+
+// Função que busca a cidade mais próxima com um centro pokémon com auxílio do algoritmo de Dijkstra:
 
 void busca_centro(cidades cidade[], int num_vertices)
 {
@@ -196,13 +203,14 @@ void busca_centro(cidades cidade[], int num_vertices)
 	if (pos != -1)
 	{
 
-		end = shortest_path_dijkstra(cidade, num_vertices, pos);
+		shortest_path_dijkstra(cidade, num_vertices, pos, end);
 		cout << "A cidade mais próxima com um centro Pokémon é: " << cidade[end].nome << endl;
-		// mostrar melhor caminho para o centro pokémon mais próximo
 	}
 }
 
 typedef treenode *treenodeptr;
+
+// Função que auxilia para mostrar os tipos quando os dados dos pokémons forem inseridos:
 
 void imprime_tipos() {
     cout << "Tipos de Pokémon:";
@@ -216,6 +224,8 @@ void imprime_tipos() {
         }
     }
 }
+
+// Função de inserção dos dados de cada pokémon que será inserido na árvore:
 
 void dados_pokemon(pokemon &poke)
 {
@@ -233,6 +243,8 @@ void dados_pokemon(pokemon &poke)
     cin >> poke.posicao.x >> poke.posicao.y;
 }
 
+// Função auxiliar que compara as strings dos nomes para futuras inserções na árvore por nomes:
+
 int compara_nome_pokemon(string &nome, pokemon &poke)
 {
 	if (nome == poke.nome)
@@ -249,6 +261,8 @@ int compara_nome_pokemon(string &nome, pokemon &poke)
 	}
 }
 
+// Função auxiliar que compara os inteiros dos tipos para futuras inserções na árvore por tipos:
+
 int compara_tipo_pokemon(int tipo1, pokemon poke)
 {
 	if (tipo1 == poke.tipo1)
@@ -264,6 +278,8 @@ int compara_tipo_pokemon(int tipo1, pokemon poke)
 		return 1;
 	}
 }
+
+// Função que insere os pokémons por tipo:
 
 void pokeInsert_por_tipo(treenodeptr &p, pokemon poke_tipo)
 {
@@ -287,6 +303,8 @@ void pokeInsert_por_tipo(treenodeptr &p, pokemon poke_tipo)
 		}
 	}
 }
+
+// Função que insere os pokémons por nome:
 
 void pokeInsert_por_nome(treenodeptr &p, pokemon poke_nome)
 {
@@ -312,6 +330,8 @@ void pokeInsert_por_nome(treenodeptr &p, pokemon poke_nome)
 	}
 }
 
+// Função que é responsável pela busca dos pokémons na árvore.
+
 treenodeptr pokeSearch(treenodeptr p, string poke)
 {
 	if (p == NULL)
@@ -336,6 +356,8 @@ treenodeptr pokeSearch(treenodeptr p, string poke)
 	}
 }
 
+// Função alivia main:
+
 void pesquisarPokemon(treenodeptr arvore)
 {
 	string op;
@@ -352,6 +374,8 @@ void pesquisarPokemon(treenodeptr arvore)
 	}
 }
 
+// Função auxiliar para remoção.
+
 treenodeptr tMenor(treenodeptr &p)
 {
 	treenodeptr t;
@@ -365,6 +389,8 @@ treenodeptr tMenor(treenodeptr &p)
 	else // Continua procurando na esquerda
 		return tMenor(p->left);
 }
+
+// Função que remove pokémons da árvore pelo seu nome:
 
 bool pokeRemove(treenodeptr &p, string nome)
 {
@@ -405,6 +431,8 @@ bool pokeRemove(treenodeptr &p, string nome)
 	}
 }
 
+// Função alivia main:
+
 void removerPokemon(treenodeptr &arvore)
 {
 	string a_remover;
@@ -421,6 +449,8 @@ void removerPokemon(treenodeptr &arvore)
 		cout << "Não encontrado para remoção" << endl;
 	}
 }
+
+// Função que ordena os pokémons em ordem alfabética de nome:
 
 void inOrder_nome(treenodeptr p)
 {
@@ -444,7 +474,9 @@ void inOrder_nome(treenodeptr p)
 		inOrder_nome(p->right);
 	}
 }
-// caso 8:
+
+// Função que ordena os pokémons por tipo:
+
 void inOrder_tipo(treenodeptr p)
 {
 	static bool hp = false;
@@ -468,6 +500,8 @@ void inOrder_tipo(treenodeptr p)
 	}
 }
 
+// Função que conta os pokémons por tipo:
+
 void conta_tipo(treenodeptr p, int tipo, int &i)
 {
 
@@ -483,7 +517,8 @@ void conta_tipo(treenodeptr p, int tipo, int &i)
 	}
 }
 
-// caso 9:
+// Função auxiliar da conta_tipo:
+
 void imprime_poke_tipo(treenodeptr p)
 {
 
@@ -565,6 +600,8 @@ double calcular_distancia(ponto p1, ponto p2)
 	return distancia;
 }
 
+// Algoritmo importante para montar o fecho convexo:
+
 void gift_wraping(vector<ponto> &points, int n)
 {
 	double perimetro = 0;
@@ -614,6 +651,8 @@ void gift_wraping(vector<ponto> &points, int n)
 	points.clear();
 }
 
+// Função que conta quantos pokémons estão dentro do raio de 100 metros:
+
 void contar_pokemons(treenodeptr p, ponto minha_posicao, int &contador, vector<ponto> &pilha)
 {
 	if (p != NULL)
@@ -646,6 +685,8 @@ void consultar_pokemons_no_raio(treenodeptr p)
 	gift_wraping(pilha, int(pilha.size()));
 }
 
+// Função alivia main:
+
 void exibe_introducao(int &orientado, int &num_vertices, int &arestas)
 {
 	// Introdução
@@ -674,6 +715,8 @@ void exibe_introducao(int &orientado, int &num_vertices, int &arestas)
 	}
 	while (orientado != 0 || orientado != 1);
 }
+
+// Função alivia main:
 
 void Imprime_menu()
 {
@@ -705,6 +748,8 @@ void Imprime_menu()
 		 << "Pressione qualquer outro número pra sair"
 		 << endl;
 }
+
+// AVL:
 
 int height(treenodeptr n)
 {
@@ -835,6 +880,8 @@ void comparaAVL(string &nome_poke,treenodeptr &arvore_AVL, treenodeptr &arvore_p
 	cout << "Número de comparações da árvore normal: " << contador << endl;
 }
 
+// Função que deleta os nós e destrói uma árvore:
+
 void tDestruir(treenodeptr &p)
 {
 	if(p != NULL)
@@ -849,8 +896,7 @@ void tDestruir(treenodeptr &p)
 
 int main()
 {
-	// Permitindo acentuação no código
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, ""); // Permitindo acentuação no código.
 	system("color 74"); // Altera cor do terminal.
 
 	// Declarando variaveis
@@ -921,7 +967,6 @@ int main()
 			// caso 10: Mostra quantos pokémons podem ser encontrados dentro de um raio de 100 metros.
 			consultar_pokemons_no_raio(arvore_por_nome);
 			break;
-
 		case 11:
 			// Caso 11: Mostra a comparação entre as árvores.
 			comparaAVL(nome_poke, arvore_AVL, arvore_por_nome);
@@ -931,6 +976,8 @@ int main()
 			break;
 		}
 	}
+	
+	// Destruindo as árvores:
 
 	tDestruir(arvore_por_nome);
 	tDestruir(arvore_por_tipo);
@@ -938,3 +985,232 @@ int main()
 
 	return 0;
 }
+
+/*
+
+Caso teste com inserção de cidades e pokémons, sem as funcionalidades adicionais a partir do caso 5.
+
+10 12
+0
+1
+Pallet
+251
+0
+Lumiose
+72
+1
+Tapu village
+302
+1
+Lavender Town
+134
+0
+Verdanturf Town
+192
+0
+Vaniville Town
+16
+0
+Aether Paradise
+293
+0
+Opalucid City
+150
+1
+Suntouched City
+280
+1
+Celestic Town
+205
+1
+
+0 4 200
+0 3 20
+0 8 300
+0 9 400
+1 5 40
+2 6 30
+4 2 150
+4 7 220
+4 8 250
+7 1 175
+8 1 600
+8 9 320
+
+2
+
+3
+16
+3
+302
+
+4
+Lucario
+10
+0
+448
+72 91
+4
+Decidueye
+8
+5
+724
+65 36
+4
+Zapdos
+3
+17
+145
+120 52
+4
+Greninja
+1
+12
+658
+47 158
+4
+Blaziken
+6
+10
+257
+4 190
+4
+Mew
+14
+18
+151
+169 74
+4
+Eevee
+11
+18
+133
+22 77
+4
+MewTwo
+14
+18
+680
+75 39
+4
+Vulpix Alola
+7
+18
+299
+156 56
+4
+Psyduck
+1
+18
+320
+165 89
+4
+Scizor
+9
+0
+212
+82 61
+4
+Pinsir
+9
+18
+127
+45 73
+4
+Snorlax
+11
+18
+143
+103 55
+4
+Onix
+13
+7
+95
+17 44
+4
+Tyranitar
+13
+12
+248
+59 22
+4
+Dragonite
+2
+17
+149
+124 97
+4
+Salamence
+2
+17
+373
+85 43
+4
+Bulbasaur
+8
+16
+1
+53 92
+4
+Sceptile
+8
+18
+254
+39 61
+4
+Umbreon
+12
+18
+197
+109 30
+4
+Absol
+12
+18
+359
+42 68
+4
+Golem
+13
+7
+76
+102 118
+4
+Flygon
+15
+7
+330
+25 84
+4
+Gardevoir
+14
+5
+282
+121 37
+4
+Togekiss
+14
+17
+468
+58 112
+4
+Ninetales Alola
+7
+15
+505
+45 99
+4
+Solosis
+14
+18
+577
+190 26
+4
+Minun
+3
+18
+312
+115 150
+
+*/
